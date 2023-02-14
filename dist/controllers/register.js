@@ -44,8 +44,18 @@ const Register = async (req, res) => {
     });
     try {
         const result = await user.save();
-        rep.changeStats(true);
-        res.status(200).json(rep);
+        const token = await user.generateAuthToken();
+        res.cookie("jwt", token, {
+            secure: true,
+            httpOnly: true,
+            expires: new Date(Date.now() + 2628002880)
+        });
+        console.log(token);
+        if (result) {
+            rep.changeStats(true);
+            res.status(200).json(rep);
+        }
+        ;
     }
     catch (error) {
         rep.changeMessage(`${error}`);

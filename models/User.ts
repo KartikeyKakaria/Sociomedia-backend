@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 interface user {
   name: string;
   email: string;
@@ -13,6 +14,10 @@ interface user {
   following: Array<string>;
   badges: Array<string>;
   password: string;
+  tokens:[{
+    token:string,
+  }],
+  generateAuthToken:Function,
 }
 
 const userSchema = new Schema<user>({
@@ -54,7 +59,25 @@ const userSchema = new Schema<user>({
     type: String,
     required: true,
   },
+  tokens:[{
+    token:{
+      type:String,
+      required:true,
+    }
+  }]
 });
+
+userSchema.methods.generateAuthToken = async function():Promise<string>{
+  try {
+    const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY || "yoursecretkey" );
+    this.tokens = this.tokens.concat({ token: token });
+    await this.save();
+    return token;
+  } catch (error) {
+    return `${error}`;
+  }
+}
+
 userSchema.pre("save", async function (next) {
   if (this.isModified("password"))
     this.password = await bcrypt.hash(this.password, 4);
