@@ -5,7 +5,7 @@ const Register = async (req: Request, res: Response) => {
   if(password !== cpassword){
     return res.status(500).json({error:"Passwords don't match"})
   }
-  if(!number || !name ){
+  if(!number || !name || !age || !email || !password || !cpassword || !DOB || !gender ){
     return res.status(500).json({error:"Invalid credentials"})
   }
   const user = new USER({
@@ -22,8 +22,7 @@ const Register = async (req: Request, res: Response) => {
     password,
   })
   const result = await user.save();
-  console.log(result)
-  res.status(200).send(result)
+  res.status(200).json(result)
 };
 
 export default Register;
