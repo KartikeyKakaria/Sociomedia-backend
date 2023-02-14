@@ -13,6 +13,7 @@ const userSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: true,
+        unique: true
     },
     age: {
         type: Number,
@@ -21,6 +22,7 @@ const userSchema = new mongoose_1.Schema({
     number: {
         type: Number,
         required: true,
+        unique: true
     },
     gender: {
         type: String,

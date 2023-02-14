@@ -23,6 +23,7 @@ const userSchema = new Schema<user>({
   email: {
     type: String,
     required: true,
+    unique:true
   },
   age: {
     type: Number,
@@ -31,6 +32,7 @@ const userSchema = new Schema<user>({
   number: {
     type: Number,
     required: true,
+    unique:true
   },
   gender: {
     type: String,

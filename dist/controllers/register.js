@@ -7,10 +7,21 @@ const User_1 = __importDefault(require("../models/User"));
 const Register = async (req, res) => {
     const { name, email, age, number, password, cpassword, DOB, gender } = req.body;
     if (password !== cpassword) {
-        return res.status(500).json({ error: "Passwords don't match" });
+        return res.status(422).json({ error: "Passwords don't match" });
     }
-    if (!number || !name || !age || !email || !password || !cpassword || !DOB || !gender) {
-        return res.status(500).json({ error: "Invalid credentials" });
+    if (!number ||
+        !name ||
+        !age ||
+        !email ||
+        !password ||
+        !cpassword ||
+        !DOB ||
+        !gender) {
+        return res.status(422).json({ error: "Invalid credentials" });
+    }
+    const userExists = await User_1.default.find({ email });
+    if (userExists) {
+        return res.status(422).json({ error: "Email already exists" });
     }
     const user = new User_1.default({
         name,
@@ -25,7 +36,12 @@ const Register = async (req, res) => {
         badges: [],
         password,
     });
-    const result = await user.save();
-    res.status(200).json(result);
+    try {
+        const result = await user.save();
+        res.status(200).json(result);
+    }
+    catch (error) {
+        return res.status(500).json({ error });
+    }
 };
 exports.default = Register;
