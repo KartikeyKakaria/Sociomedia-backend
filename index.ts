@@ -2,7 +2,7 @@ import { config } from "dotenv";
 config({ path: "./config.env" });
 import express from "express";
 import router from "./routers/router";
-
+import "./db/connection"
 const app = express();
 const port = process.env.PORT || 8000;
 app.use(express.json());

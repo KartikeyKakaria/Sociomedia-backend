@@ -5,5 +5,5 @@ const router = Router();
 router.get("/",(req,res)=>{
     res.send("Hello world from ts router")
 })
-router.get("/register",Register)
+router.post("/register",Register)
 export default router;
