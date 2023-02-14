@@ -20,6 +20,11 @@ const Login = async(req:Request, res:Response)=>{
         return res.status(422).json(rep);
     }
     rep.changeStats(true)
+    res.cookie("jwt",user[0].tokens[0].token, {
+        secure:true,
+        httpOnly:true,
+        expires: new Date(Date.now() + 2628002880)
+    })
     return res.status(200).json(rep);
 
 }

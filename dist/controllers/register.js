@@ -25,7 +25,9 @@ const Register = async (req, res) => {
     }
     const emailExists = await User_1.default.find({ email });
     const numberExists = await User_1.default.find({ number });
-    if (emailExists || numberExists) {
+    if (emailExists.length !== 0 || numberExists.length !== 0) {
+        console.log(emailExists);
+        console.log(numberExists, "Loal what");
         rep.changeMessage("email or number already exists");
         return res.status(422).json(rep);
     }
