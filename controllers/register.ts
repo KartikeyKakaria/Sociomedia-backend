@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import USER from "../models/User";
+import {msgResponse} from "./lib/Classes"
 const Register = async (req: Request, res: Response) => {
+  const rep = new msgResponse(false, "Registered successfully")
   const { name, email, age, number, password, cpassword, DOB, gender } =
     req.body;
   if (password !== cpassword) {
-    return res.status(422).json({ error: "Passwords don't match" });
+    rep.changeMessage("Passwords don't match")
+    return res.status(422).json(rep);
   }
   if (
     !number ||
@@ -16,11 +19,14 @@ const Register = async (req: Request, res: Response) => {
     !DOB ||
     !gender
   ) {
+    rep.changeMessage("Invalid credentials")
     return res.status(422).json({ error: "Invalid credentials" });
   }
-  const userExists = await USER.find({ email });
-  if (userExists) {
-    return res.status(422).json({ error: "Email already exists" });
+  const emailExists = await USER.find({ email });
+  const numberExists = await USER.find({ number });
+  if (emailExists || numberExists) {
+    rep.changeMessage("email or number already exists")
+    return res.status(422).json(rep);
   }
   const user = new USER({
     name,
@@ -37,9 +43,11 @@ const Register = async (req: Request, res: Response) => {
   });
   try {
     const result = await user.save();
-    res.status(200).json(result);
+    rep.changeStats(true)
+    res.status(200).json(rep);
   } catch (error) {
-    return res.status(500).json({ error });
+    rep.changeMessage(`${error}`)
+    return res.status(500).json(rep);
   }
 };
 

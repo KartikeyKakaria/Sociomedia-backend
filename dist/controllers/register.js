@@ -4,10 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = __importDefault(require("../models/User"));
+const Classes_1 = require("./lib/Classes");
 const Register = async (req, res) => {
+    const rep = new Classes_1.msgResponse(false, "Registered successfully");
     const { name, email, age, number, password, cpassword, DOB, gender } = req.body;
     if (password !== cpassword) {
-        return res.status(422).json({ error: "Passwords don't match" });
+        rep.changeMessage("Passwords don't match");
+        return res.status(422).json(rep);
     }
     if (!number ||
         !name ||
@@ -17,11 +20,14 @@ const Register = async (req, res) => {
         !cpassword ||
         !DOB ||
         !gender) {
+        rep.changeMessage("Invalid credentials");
         return res.status(422).json({ error: "Invalid credentials" });
     }
-    const userExists = await User_1.default.find({ email });
-    if (userExists) {
-        return res.status(422).json({ error: "Email already exists" });
+    const emailExists = await User_1.default.find({ email });
+    const numberExists = await User_1.default.find({ number });
+    if (emailExists || numberExists) {
+        rep.changeMessage("email or number already exists");
+        return res.status(422).json(rep);
     }
     const user = new User_1.default({
         name,
@@ -38,10 +44,12 @@ const Register = async (req, res) => {
     });
     try {
         const result = await user.save();
-        res.status(200).json(result);
+        rep.changeStats(true);
+        res.status(200).json(rep);
     }
     catch (error) {
-        return res.status(500).json({ error });
+        rep.changeMessage(`${error}`);
+        return res.status(500).json(rep);
     }
 };
 exports.default = Register;
