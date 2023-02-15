@@ -19,12 +19,12 @@ const Login = async(req:Request, res:Response)=>{
         rep.changeMessage("Invalid email or password")
         return res.status(422).json(rep);
     }
-    rep.changeStats(true)
-    res.cookie("jwt",user[0].tokens[0].token, {
+    const token = await user[0].generateAuthToken();
+    res.cookie("jwt",token, {
         secure:true,
         httpOnly:true,
-        expires: new Date(Date.now() + 2628002880)
     })
+    rep.changeStats(true)
     return res.status(200).json(rep);
 
 }

@@ -47,12 +47,11 @@ const Register = async (req, res) => {
     try {
         const result = await user.save();
         const token = await user.generateAuthToken();
-        res.cookie("jwt", token, {
+        await res.cookie("jwt", token, {
             secure: true,
             httpOnly: true,
-            expires: new Date(Date.now() + 2628002880)
         });
-        console.log(token);
+        console.log(token, req.cookies.jwt);
         if (result) {
             rep.changeStats(true);
             res.status(200).json(rep);
