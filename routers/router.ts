@@ -4,7 +4,6 @@ import Login from "../controllers/login";
 import authUser from "../controllers/middleware/authUser";
 import Logout from "../controllers/logout";
 const router = Router();
-
 router.get("/",(req,res)=>{
     res.send("Hello world from ts router")
 })
