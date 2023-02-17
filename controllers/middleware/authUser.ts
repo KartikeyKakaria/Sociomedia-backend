@@ -2,7 +2,6 @@ import { Request, Response, NextFunction, RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import USER from "../../models/User";
 import { msgResponse } from "../lib/Classes";
-import {request} from "../lib/types"
 const authUser:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         const token = req.cookies.jwt;
@@ -17,4 +16,3 @@ const authUser:RequestHandler = async(req:Request,res:Response,next:NextFunction
     }
 }
 export default authUser;
-export {request}

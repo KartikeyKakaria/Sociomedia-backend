@@ -8,17 +8,17 @@ const Login = async(req:Request, res:Response)=>{
     const rep = new msgResponse(false, "Loginned successfully")
     if(!email || !password){
         rep.changeMessage("Please enter out all the fields")
-        return res.status(422).json(rep)
+        return res.status(402).json(rep)
     }
     const user = await USER.find({email});
     if(!user){
         rep.changeMessage("Invalid email or password")
-        return res.status(422).json(rep);
+        return res.status(402).json(rep);
     }
     const passwordsMatch = await bcrypt.compare(password, user[0].password)
     if(!passwordsMatch){
         rep.changeMessage("Invalid email or password")
-        return res.status(422).json(rep);
+        return res.status(402).json(rep);
     }
     const token = await user[0].generateAuthToken();
     const cookieOptions:cookieOps = {

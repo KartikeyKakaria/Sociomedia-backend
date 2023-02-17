@@ -1,7 +1,3 @@
-interface request {
-  token: string;
-  user: any;
-}
 interface Token {
   token: string;
   _id: string;
@@ -13,6 +9,5 @@ interface cookieOps{
     httpOnly:boolean;
 }
 
-export { request };
 export { Token };
 export { cookieOps };

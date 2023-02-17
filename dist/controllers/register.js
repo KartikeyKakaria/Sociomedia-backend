@@ -10,7 +10,7 @@ const Register = async (req, res) => {
     const { name, email, age, number, password, cpassword, DOB, gender } = req.body;
     if (password !== cpassword) {
         rep.changeMessage("Passwords don't match");
-        return res.status(422).json(rep);
+        return res.status(402).json(rep);
     }
     if (!number ||
         !name ||
@@ -21,13 +21,13 @@ const Register = async (req, res) => {
         !DOB ||
         !gender) {
         rep.changeMessage("Invalid credentials");
-        return res.status(422).json({ error: "Invalid credentials" });
+        return res.status(402).json({ error: "Invalid credentials" });
     }
     const emailExists = await User_1.default.find({ email });
     const numberExists = await User_1.default.find({ number });
     if (emailExists.length !== 0 || numberExists.length !== 0) {
         rep.changeMessage("email or number already exists");
-        return res.status(422).json(rep);
+        return res.status(402).json(rep);
     }
     const user = new User_1.default({
         name,
@@ -54,7 +54,7 @@ const Register = async (req, res) => {
         res.cookie("jwt", token, cookieOptions);
         if (result) {
             rep.changeStats(true);
-            res.status(200).json(rep);
+            res.status(201).json(rep);
         }
         ;
     }
