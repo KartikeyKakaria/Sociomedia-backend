@@ -26,7 +26,7 @@ SECRET_KEY=your_secret_jwt_authentication_key
 ## Now follow the following instructions to run the server
 
 # Instructions:
-## to build the app for production, run the following commclient_loop: send disconnect: Connection reset by peer
+## to build the app for production, run the following command
 ```sh
 $ npm run build
 ```
