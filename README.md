@@ -48,10 +48,10 @@ $ npm run dev
 
 # Contributing
 
-## If you wanna contribute to the project, follow the following steps
+## If you wanna contribute to the project, YOu are welcome to do that! , Just follow the following steps
 
 ## 1. Create a fork of this repository so you can get started
-## 2. WRite Some Code!, one you think your code is finished, you can commit and push the changes to your forked repository. There's a accessory to do that
+## 2. Write Some Code!, once you think your code is finished, you can commit and push the changes to your forked repository. There's a accessory to do that
 ## run the following command in your git cli to push your changes
 ```sh
 $ chmod +x ./git.sh
