@@ -26,8 +26,6 @@ const Register = async (req, res) => {
     const emailExists = await User_1.default.find({ email });
     const numberExists = await User_1.default.find({ number });
     if (emailExists.length !== 0 || numberExists.length !== 0) {
-        console.log(emailExists);
-        console.log(numberExists, "Loal what");
         rep.changeMessage("email or number already exists");
         return res.status(422).json(rep);
     }
@@ -47,11 +45,13 @@ const Register = async (req, res) => {
     try {
         const result = await user.save();
         const token = await user.generateAuthToken();
-        await res.cookie("jwt", token, {
-            secure: true,
+        const cookieOptions = {
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
             httpOnly: true,
-        });
-        console.log(token, req.cookies.jwt);
+        };
+        if (process.env.NODE_ENV === "production")
+            cookieOptions.secure = true;
+        res.cookie("jwt", token, cookieOptions);
         if (result) {
             rep.changeStats(true);
             res.status(200).json(rep);

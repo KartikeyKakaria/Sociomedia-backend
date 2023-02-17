@@ -6,9 +6,7 @@ import {request} from "../lib/types"
 const authUser:RequestHandler = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         const token = req.cookies.jwt;
-        console.log(token)
         const userId = jwt.verify(token,process.env.SECRET_KEY||"yoursecretkey");
-        console.log(userId);
         const user = await USER.findById(userId);
         req.params.user = JSON.stringify(user)
         req.params.token = token;

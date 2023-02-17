@@ -2,6 +2,7 @@ import {Request, Response } from "express";
 import USER from "../models/User";
 import bcrypt from "bcryptjs";
 import { msgResponse } from "./lib/Classes";
+import { cookieOps } from "./lib/types";
 const Login = async(req:Request, res:Response)=>{
     const {email, password} = req.body;
     const rep = new msgResponse(false, "Loginned successfully")
@@ -20,10 +21,13 @@ const Login = async(req:Request, res:Response)=>{
         return res.status(422).json(rep);
     }
     const token = await user[0].generateAuthToken();
-    res.cookie("jwt",token, {
-        secure:true,
+    const cookieOptions:cookieOps = {
+        expires: new Date(Date.now() + 30*24*60*60*1000),
         httpOnly:true,
-    })
+    }
+    if(process.env.NODE_ENV === "prudction") cookieOptions.secure = true;
+    
+    res.cookie("jwt",token,cookieOptions)
     rep.changeStats(true)
     return res.status(200).json(rep);
 

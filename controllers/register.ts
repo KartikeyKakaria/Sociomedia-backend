@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import USER from "../models/User";
 import {msgResponse} from "./lib/Classes"
+import {cookieOps} from "./lib/types"
 const Register = async (req: Request, res: Response) => {
   const rep = new msgResponse(false, "Registered successfully")
   const { name, email, age, number, password, cpassword, DOB, gender } =
@@ -25,8 +26,6 @@ const Register = async (req: Request, res: Response) => {
   const emailExists = await USER.find({ email });
   const numberExists = await USER.find({ number });
   if (emailExists.length !== 0 || numberExists.length !== 0) {
-    console.log(emailExists)
-    console.log(numberExists,"Loal what")
     rep.changeMessage("email or number already exists")
     return res.status(422).json(rep);
   }
@@ -46,11 +45,12 @@ const Register = async (req: Request, res: Response) => {
   try {
     const result = await user.save();
     const token = await user.generateAuthToken();
-    await res.cookie("jwt",token, {
-      secure:true,
+    const cookieOptions:cookieOps = {
+      expires: new Date(Date.now() + 30*24*60*60*1000),
       httpOnly:true,
-    })
-    console.log(token, req.cookies.jwt)
+    }
+    if(process.env.NODE_ENV === "production") cookieOptions.secure = true;
+    res.cookie("jwt",token, cookieOptions)
     if(result){
       rep.changeStats(true)
       res.status(200).json(rep)
