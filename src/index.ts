@@ -1,3 +1,4 @@
+/** importing essential libraries and files **/
 import express from 'express';
 import { connect } from 'mongoose';
 import router from './routers/router';
@@ -32,6 +33,8 @@ const startServer = () => {
       });
       next();
    });
+
+   /** Essential middleware **/
    app.use(express.json());
    app.use(express.urlencoded({ extended: false }));
    app.use(cookieParser());
@@ -52,6 +55,7 @@ const startServer = () => {
    app.use('/', router);
    app.use('/get', getRouter);
    app.use('/add', addRouter);
+
    /** Healthcheck **/
    app.get('/work', (req, res) => {
       res.status(200).json({ message: 'working' });
@@ -59,7 +63,7 @@ const startServer = () => {
 
    /** 404 error **/
    app.use((req, res) => {
-      Logging.error(`[404]: ${req.url} not found`);
+      Logging.error(`[404]: Method:[${req.method}] ${req.url} not found`);
    });
    app.listen(port, () => Logging.info(`listening at port number ${port}`));
 };

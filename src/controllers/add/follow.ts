@@ -1,6 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
 import { msgResponse } from '../../lib/Classes';
 import USER from '../../models/User';
+import checkIfUserAlreadyFollows from '../../lib/userFollows';
 const addFollowing: RequestHandler = async (req: Request, res: Response) => {
    const { followingId } = req.body;
    const rep = new msgResponse(false, 'Followed successfully');
@@ -11,10 +12,7 @@ const addFollowing: RequestHandler = async (req: Request, res: Response) => {
    const { _id } = JSON.parse(req.params.user);
    try {
       /** Checking if the user already follows them or not **/
-      const alreadyFollowing = await USER.find({ followers: _id });
-      const followingFollower = alreadyFollowing.some((user) => {
-         return user._id == followingId;
-      });
+      const followingFollower = await checkIfUserAlreadyFollows(_id, followingId);
       if (followingFollower) {
          rep.changeMessage('You already follow them!');
          return res.status(402).send(rep);
