@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler } from "express";
 import USER from "../models/User";
-import { msgResponse } from "./lib/Classes";
-import { Token } from "./lib/types";
+import { msgResponse } from "../lib/Classes";
+import { Token } from "../lib/types";
 const Logout: RequestHandler = async (req: Request, res: Response) => {
   const rep = new msgResponse(false, "Logged out successfully");
   const { user, token } = req.params; // fetching the user and the tokens

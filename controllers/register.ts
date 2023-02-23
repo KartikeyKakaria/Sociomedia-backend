@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import USER from "../models/User";
-import {msgResponse} from "./lib/Classes"
-import {cookieOps} from "./lib/types"
+import { msgResponse } from "../lib/Classes"
+import { cookieOps } from "../lib/types"
 const Register = async (req: Request, res: Response) => {
   const rep = new msgResponse(false, "Registered successfully")
   const { name, email, age, number, password, cpassword, DOB, gender } =
@@ -45,13 +45,13 @@ const Register = async (req: Request, res: Response) => {
   try {
     const result = await user.save();
     const token = await user.generateAuthToken();
-    const cookieOptions:cookieOps = {
-      expires: new Date(Date.now() + 30*24*60*60*1000),
-      httpOnly:true,
+    const cookieOptions: cookieOps = {
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
     }
-    if(process.env.NODE_ENV === "production") cookieOptions.secure = true;
-    res.cookie("jwt",token, cookieOptions)
-    if(result){
+    if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+    res.cookie("jwt", token, cookieOptions)
+    if (result) {
       rep.changeStats(true)
       res.status(201).json(rep)
     };

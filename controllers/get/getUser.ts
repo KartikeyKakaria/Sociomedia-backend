@@ -1,6 +1,6 @@
 import { Request, Response, RequestHandler } from "express";
 import USER from "../../models/User";
-import { jsonResponse, msgResponse } from "../lib/Classes";
+import { jsonResponse, msgResponse } from "../../lib/Classes";
 const getUser: RequestHandler = async (req: Request, res: Response) => {
   const { user } = req.params;
   res.status(200).json(JSON.parse(user));
