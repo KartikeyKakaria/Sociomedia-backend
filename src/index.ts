@@ -2,6 +2,7 @@ import express from 'express';
 import { connect } from 'mongoose';
 import router from './routers/router';
 import getRouter from './routers/get';
+import addRouter from './routers/add';
 import cookieParser from 'cookie-parser';
 import serverProps from './config/config';
 import Logging from './lib/Logging';
@@ -50,7 +51,7 @@ const startServer = () => {
    /** Routes **/
    app.use('/', router);
    app.use('/get', getRouter);
-
+   app.use('/add', addRouter);
    /** Healthcheck **/
    app.get('/work', (req, res) => {
       res.status(200).json({ message: 'working' });

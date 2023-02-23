@@ -3,5 +3,5 @@
    "editor.bracketPairColorization.enabled": true,
    "editor.formatOnSave": true,
    "editor.wordWrap": "on",
-   "dotenv.enableAutocloaking": true
+   "dotenv.enableAutocloaking": false
 }
