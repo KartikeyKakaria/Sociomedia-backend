@@ -3,6 +3,9 @@ import USER from "../models/User";
 import bcrypt from "bcryptjs";
 import { msgResponse } from "../lib/Classes";
 import { cookieOps } from "../lib/types";
+import serverProps from '../config/config'
+
+const { env } = serverProps.server
 const Login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const rep = new msgResponse(false, "Loginned successfully")
@@ -25,7 +28,7 @@ const Login = async (req: Request, res: Response) => {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         httpOnly: true,
     }
-    if (process.env.NODE_ENV === "prudction") cookieOptions.secure = true;
+    if (env === "prudction") cookieOptions.secure = true;
 
     res.cookie("jwt", token, cookieOptions)
     rep.changeStats(true)
