@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import { join } from "path"
-config({ path: join(__dirname, '../../config.env') })
+config({ path: join(__dirname, '../../.env') })
 const { NODE_ENV, PORT, DB, SECRET_KEY } = process.env
 const serverProps = {
     server: {
