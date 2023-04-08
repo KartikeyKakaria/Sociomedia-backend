@@ -4,6 +4,7 @@ import { connect } from 'mongoose';
 import router from './routers/router';
 import getRouter from './routers/get';
 import addRouter from './routers/add';
+import editRouter from './routers/edit';
 import cookieParser from 'cookie-parser';
 import serverProps from './config/config';
 import Logging from './lib/Logging';
@@ -55,6 +56,7 @@ const startServer = () => {
    app.use('/', router);
    app.use('/get', getRouter);
    app.use('/add', addRouter);
+   app.use('/edit', editRouter);
 
    /** Healthcheck **/
    app.get('/work', (req, res) => {

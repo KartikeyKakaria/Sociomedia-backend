@@ -3,5 +3,8 @@
    "editor.bracketPairColorization.enabled": true,
    "editor.formatOnSave": true,
    "editor.wordWrap": "on",
-   "dotenv.enableAutocloaking": false
+   "dotenv.enableAutocloaking": false,
+   "[typescript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+   }
 }
