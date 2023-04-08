@@ -1,4 +1,4 @@
-class response {
+abstract class response {
   success: boolean;
   constructor(success: boolean) {
     this.success = success;
@@ -29,6 +29,5 @@ class jsonResponse extends response {
   }
 }
 
-export { response };
 export { jsonResponse };
 export { msgResponse };
