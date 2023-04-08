@@ -9,4 +9,17 @@ interface cookieOps {
   httpOnly: boolean;
 }
 
-export { Token, cookieOps }
+interface User {
+  name: string,
+  age: string,
+  number: number,
+  gender: 'male' | 'female' | 'better not say',
+  DOB: Date,
+  email: string,
+}
+
+interface dbUser extends User {
+  private password: string
+}
+
+export { Token, cookieOps, User, dbUser }
