@@ -14,7 +14,7 @@ const Login = async (req: Request, res: Response) => {
         return res.status(402).json(rep)
     }
     const user = await USER.find({ email });
-    if (!user) {
+    if (user.length === 0 || !user) {
         rep.changeMessage("Invalid email or password")
         return res.status(402).json(rep);
     }

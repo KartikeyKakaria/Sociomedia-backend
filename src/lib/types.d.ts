@@ -19,6 +19,7 @@ interface User {
 }
 
 interface dbUser extends User {
+  readonly _id:string,
   private password: string
 }
 
