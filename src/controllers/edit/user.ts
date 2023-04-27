@@ -4,7 +4,6 @@ import { msgResponse } from "../../lib/Classes";
 const editUser: RequestHandler = async (req: Request, res: Response) => {
     const { _id, name, email, age, DOB, gender, number } = JSON.parse(req.params.user);
     const { newName, newAge, newEmail, newDOB, newGender, newNumber } = req.body;
-    console.log(newName)
     const resp = new msgResponse(false, "Data updated successfully")
     if (!newName && !newAge && !newEmail && !newDOB && !newGender && !newNumber) {
         resp.changeMessage("No change")
