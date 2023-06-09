@@ -14,8 +14,8 @@ getRouter.get('/follows/:followingId', authUser, async (req, res) => {
       return res.status(200).json({
          status: true,
          response: followsUser
-      });
-   } catch (error) {
+      }); 
+   } catch (error) { 
       return res.status(500).json({
          status: false,
          response: `${error}`

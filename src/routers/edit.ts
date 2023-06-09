@@ -6,5 +6,5 @@ const editRouter = Router();
 
 editRouter.post('/me', authUser, editUser);
 editRouter.post('/password',authUser, editPassword);
-
-export default editRouter;
+ 
+export default editRouter; 

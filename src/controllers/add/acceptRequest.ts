@@ -1,7 +1,7 @@
 import { Request, Response, RequestHandler } from 'express';
 import getFriendRequests from "../../lib/getFriendRequests";
 import USER from "../../models/User";
-import friendReq from "../../models/friendReq";
+import pendingReqs from "../../models/friendReq";
 import { msgResponse } from '../../lib/Classes';
 
 const acceptRequest:RequestHandler = async (req:Request, res:Response)=>{
@@ -19,7 +19,7 @@ const acceptRequest:RequestHandler = async (req:Request, res:Response)=>{
     }
     
     try{
-        await friendReq.deleteOne({from:requestId, to:_id});
+        await pendingReqs.deleteOne({from:requestId, to:_id});
         await USER.updateOne({_id:_id}, {
             $push:{
                 friends:requestId

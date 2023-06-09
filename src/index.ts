@@ -1,13 +1,15 @@
 /** importing essential libraries and files **/
 import express from 'express';
 import { connect } from 'mongoose';
-import router from './routers/router';
+import cors from 'cors';
+import authRouter from './routers/auth';
 import getRouter from './routers/get';
 import addRouter from './routers/add';
 import editRouter from './routers/edit';
 import cookieParser from 'cookie-parser';
 import serverProps from './config/config';
 import Logging from './lib/Logging';
+import userRouter from './routers/users';
 const { db, server } = serverProps;
 
 /** Connecting to database **/
@@ -39,6 +41,7 @@ const startServer = () => {
    app.use(express.json());
    app.use(express.urlencoded({ extended: false }));
    app.use(cookieParser());
+   app.use(cors());
 
    /** Api rules **/
    app.use((req, res, next) => {
@@ -53,7 +56,8 @@ const startServer = () => {
    });
 
    /** Routes **/
-   app.use('/', router);
+   app.use('/api/auth', authRouter);
+   app.use('/api/user', userRouter);
    app.use('/get', getRouter);
    app.use('/add', addRouter);
    app.use('/edit', editRouter);
