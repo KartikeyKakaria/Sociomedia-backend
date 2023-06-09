@@ -15,17 +15,17 @@ export const Login: RequestHandler = async (req: Request, res: Response) => {
       rep.changeMessage('Please enter out all the fields');
       return res.status(402).json(rep);
    }
-   const user = await USER.find({ email });
+   const user = await USER.findOne({ email });
    if (!user) {
       rep.changeMessage('Invalid email or password');
       return res.status(402).json(rep);
    }
-   const passwordsMatch = await bcrypt.compare(password, user[0].password);
+   const passwordsMatch = await bcrypt.compare(password, user.password);
    if (!passwordsMatch) {
       rep.changeMessage('Invalid email or password');
       return res.status(402).json(rep);
    }
-   const token = await user[0].generateAuthToken();
+   const token = await user.generateAuthToken();
    const cookieOptions: cookieOps = {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true
@@ -78,7 +78,7 @@ export const Register = async (req: Request, res: Response) => {
       res.cookie('jwt', token, cookieOptions);
       if (result) {
          rep.changeStats(true);
-         res.status(201).json(rep);
+         return res.status(201).json(rep);
       }
    } catch (error) {
       rep.changeMessage(`${error}`);
